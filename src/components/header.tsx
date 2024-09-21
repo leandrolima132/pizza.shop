@@ -1,10 +1,9 @@
-import {  Home, Pizza,  UtensilsCrossed } from 'lucide-react'
+import { Home, Pizza, UtensilsCrossed } from "lucide-react";
 
-
-import { Separator } from './ui/separator'
-import { NavLink } from './nav-link'
-import { ThemeToggle } from './theme-toggle'
-import { AccountMenu } from './account.menu'
+import { Separator } from "./ui/separator";
+import { NavLink } from "./nav-link";
+import { ThemeToggle } from "./theme-toggle";
+import { AccountMenu } from "./account.menu";
 
 export function Header() {
   return (
@@ -15,7 +14,7 @@ export function Header() {
         <Separator orientation="vertical" className="h-6" />
 
         <nav className="flex items-center space-x-4 lg:space-x-6">
-        <NavLink to="/">
+          <NavLink to="/">
             <Home className="h-4 w-4" />
             Início
           </NavLink>
@@ -26,10 +25,10 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center space-x-2">
-          <ThemeToggle/>
-          <AccountMenu/>
+          <ThemeToggle />
+          <AccountMenu />
         </div>
       </div>
     </div>
-  )
+  );
 }

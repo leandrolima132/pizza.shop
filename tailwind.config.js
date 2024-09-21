@@ -2,12 +2,11 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -20,6 +19,7 @@ module.exports = {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
+        lowlight: "hsl(var(--lowlight))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -57,6 +57,14 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: ({ theme }) => ({
+        stripes: `repeating-linear-gradient(-45deg, transparent, transparent 1rem, ${theme(
+          "colors.lowlight"
+        )} 1rem, ${theme("colors.lowlight")} 2rem)`,
+      }),
+      backgroundSize: {
+        stripes: "200% 200%",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -66,12 +74,16 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        stripes: {
+          to: { backgroundPosition: "100% 100%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        stripes: "stripes 60s linear infinite",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
