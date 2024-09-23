@@ -1,25 +1,27 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { twMerge } from 'tailwind-merge'
-import { z } from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { twMerge } from "tailwind-merge";
+import { z } from "zod";
 
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
+import { registerRestaurant } from "@/api/register-restaurant";
 
 const signUpSchema = z.object({
   restaurantName: z.string(),
   managerName: z.string(),
   phone: z.string(),
   email: z.string().email(),
-})
+});
 
-type SignUpSchema = z.infer<typeof signUpSchema>
+type SignUpSchema = z.infer<typeof signUpSchema>;
 
 export function SignUp() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
@@ -27,8 +29,11 @@ export function SignUp() {
     formState: { isSubmitting },
   } = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
-  })
+  });
 
+  const { mutateAsync: registerRestaurantFn } = useMutation({
+    mutationFn: registerRestaurant,
+  });
 
   async function handleRegisteRestaurant({
     restaurantName,
@@ -37,19 +42,24 @@ export function SignUp() {
     phone,
   }: SignUpSchema) {
     try {
-      console.log({ restaurantName, managerName, email, phone })
+      await registerRestaurantFn({
+        restaurantName,
+        managerName,
+        email,
+        phone,
+      });
 
-      toast.success('Restaurante cadastrado!', {
-        description: '',
+      toast.success("Restaurante cadastrado!", {
+        description: "",
         action: {
-          label: 'Login',
+          label: "Login",
           onClick: () => {
-            navigate(`/sign-in?email=${email}`)
+            navigate(`/sign-in?email=${email}`);
           },
         },
-      })
+      });
     } catch (err) {
-      toast.error('Erro ao registrar restaurante!')
+      toast.error("Erro ao registrar restaurante!");
     }
   }
 
@@ -58,8 +68,8 @@ export function SignUp() {
       <a
         href="/sign-in"
         className={twMerge(
-          buttonVariants({ variant: 'ghost' }),
-          'absolute right-4 top-4 md:right-8 md:top-8',
+          buttonVariants({ variant: "ghost" }),
+          "absolute right-4 top-4 md:right-8 md:top-8"
         )}
       >
         Fazer login
@@ -85,7 +95,7 @@ export function SignUp() {
                   id="name"
                   type="text"
                   autoCorrect="off"
-                  {...register('restaurantName')}
+                  {...register("restaurantName")}
                 />
               </div>
 
@@ -95,7 +105,7 @@ export function SignUp() {
                   id="managerName"
                   type="text"
                   autoCorrect="off"
-                  {...register('managerName')}
+                  {...register("managerName")}
                 />
               </div>
 
@@ -107,7 +117,7 @@ export function SignUp() {
                   autoCapitalize="none"
                   autoComplete="email"
                   autoCorrect="off"
-                  {...register('email')}
+                  {...register("email")}
                 />
               </div>
 
@@ -117,7 +127,7 @@ export function SignUp() {
                   id="phone"
                   placeholder="(99) 99999-9999"
                   type="tel"
-                  {...register('phone')}
+                  {...register("phone")}
                 />
               </div>
 
@@ -129,14 +139,14 @@ export function SignUp() {
         </div>
 
         <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
-          Ao continuar, você concorda com nossos{' '}
+          Ao continuar, você concorda com nossos{" "}
           <a
             href="/terms"
             className="underline underline-offset-4 hover:text-primary"
           >
             Termos de serviço
-          </a>{' '}
-          e{' '}
+          </a>{" "}
+          e{" "}
           <a
             href="/privacy"
             className="underline underline-offset-4 hover:text-primary"
@@ -147,5 +157,5 @@ export function SignUp() {
         </p>
       </div>
     </div>
-  )
+  );
 }
