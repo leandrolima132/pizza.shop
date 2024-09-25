@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "@/api/get-profile";
 import { getManagedRestaurant } from "@/api/get-managed-restaurant";
 import { Skeleton } from "./ui/skeleton";
+import { StoreProfile } from "./store-profile-dialog";
 
 export function AccountMenu() {
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
@@ -25,6 +26,7 @@ export function AccountMenu() {
     useQuery({
       queryKey: ["managed-restaurant"],
       queryFn: getManagedRestaurant,
+      staleTime: Infinity,
     });
 
   return (
@@ -80,6 +82,7 @@ export function AccountMenu() {
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+      <StoreProfile />
     </Dialog>
   );
 }
