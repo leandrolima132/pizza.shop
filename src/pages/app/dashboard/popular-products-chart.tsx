@@ -6,19 +6,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import colors from "tailwindcss/colors";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
-import { BarChart } from "lucide-react";
+import {
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  TooltipProps,
+} from "recharts";
+import { BarChart, Loader2 } from "lucide-react";
+import { getPopularProducts } from "@/api/get-popular-products";
+import { useQuery } from "@tanstack/react-query";
 
-const mockData = [
-  // Mock de dados para o gráfico com receita aleatória aumentando e diminuindo
-  { product: "Calabresa", amount: 40 },
-  { product: "Marguerita", amount: 45 },
-  { product: "Portuguesa", amount: 45 },
-  { product: "Quatro Queijos", amount: 40 },
-  { product: "Frango com Catupiry", amount: 42 },
-  { product: "Napolitana", amount: 42 },
-  { product: "Bacon", amount: 35 },
-];
+function CustomTooltip({ active, payload }: TooltipProps<number, number>) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="flex flex-col gap-2 rounded-lg border bg-card p-4 text-card-foreground shadow-sm">
+        <span className="text-base font-semibold">{payload[0].name}</span>
+        <div className="flex flex-col gap-1">
+          <span className="">
+            <span className="font-semibold">Vendas:</span> {payload[0].value}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
 
 const COLORS = [
   colors.sky[500],
@@ -28,73 +43,100 @@ const COLORS = [
 ];
 
 export function PopularProductsChart() {
+  const { data: popularProducts, isFetching: isLoadingPopularProducts } =
+    useQuery({
+      queryKey: ["metrics", "popular-products"],
+      queryFn: getPopularProducts,
+    });
+
+  console.log(popularProducts);
   return (
     <Card className="col-span-3">
       <CardHeader className="pb-8">
         <div className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-base font-medium">
             Produtos populares
+            {isLoadingPopularProducts && (
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            )}
           </CardTitle>
           <BarChart className="h-4 w-4 text-muted-foreground" />
         </div>
         <CardDescription>Os 5 produtos com mais vendas</CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={240}>
-          <PieChart style={{ fontSize: 14 }}>
-            <Pie
-              data={mockData}
-              dataKey={"amount"}
-              nameKey={"product"}
-              cx={"50%"}
-              cy={"50%"}
-              outerRadius={86}
-              innerRadius={64}
-              strokeWidth={8}
-              fill={colors.emerald["500"]}
-              label={({
-                cx,
-                cy,
-                midAngle,
-                innerRadius,
-                outerRadius,
-                value,
-                index,
-              }) => {
-                const RADIAN = Math.PI / 180;
-                const radius = 12 + innerRadius + (outerRadius - innerRadius);
-                const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                const y = cy + radius * Math.sin(-midAngle * RADIAN);
+        {popularProducts && popularProducts.length === 0 && (
+          <div className="flex justify-center ">
+            {" "}
+            <p className="py-10 text-center text-muted-foreground">
+              Nenhum resultado encontrado.
+            </p>
+          </div>
+        )}
 
-                return (
-                  <text
-                    x={x}
-                    y={y}
-                    className="fill-muted-foreground text-xs"
-                    textAnchor={x > cx ? "start" : "end"}
-                    dominantBaseline="central"
-                  >
-                    {mockData[index].product.length > 12
-                      ? mockData[index].product.substring(0, 12).concat("...")
-                      : mockData[index].product}{" "}
-                    ({value})
-                  </text>
-                );
-              }}
-              labelLine={false}
-            >
-              {mockData.map((_, index) => {
-                return (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                    className="stroke-background hover:opacity-80"
-                  />
-                );
-              })}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
+        {popularProducts ? (
+          <ResponsiveContainer width="100%" height={240}>
+            <PieChart style={{ fontSize: 14 }}>
+              <Pie
+                data={popularProducts}
+                dataKey="amount"
+                nameKey="product"
+                cx="50%"
+                cy="50%"
+                outerRadius={86}
+                innerRadius={64}
+                strokeWidth={8}
+                fill={colors.emerald["500"]}
+                label={({
+                  cx,
+                  cy,
+                  midAngle,
+                  innerRadius,
+                  outerRadius,
+                  value,
+                  index,
+                }) => {
+                  const RADIAN = Math.PI / 180;
+                  const radius = 12 + innerRadius + (outerRadius - innerRadius);
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      className="fill-muted-foreground text-xs"
+                      textAnchor={x > cx ? "start" : "end"}
+                      dominantBaseline="central"
+                    >
+                      {popularProducts[index].product
+                        .substring(0, 12)
+                        .concat("...")}{" "}
+                      ({value})
+                    </text>
+                  );
+                }}
+                labelLine={false}
+              >
+                {popularProducts.map((_, index) => {
+                  return (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                      className="stroke-background hover:opacity-80"
+                    />
+                  );
+                })}
+              </Pie>
+
+              <Tooltip content={<CustomTooltip />} />
+            </PieChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="flex h-[240px] w-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
