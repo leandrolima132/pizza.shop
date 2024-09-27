@@ -8,8 +8,6 @@ Este é o projeto "Pizza Shop", desenvolvido como parte do curso da Rocketseat. 
 
 ## Funcionalidades
 
-## Funcionalidades
-
 - Visualização do cardápio de pizzas.
 - Adição de pizzas ao carrinho.
 - Finalização de pedidos.
@@ -32,13 +30,13 @@ Para começar a usar o Pizza Shop localmente, siga os passos abaixo:
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com/leandrolima132/03-dt-money
+   git clone https://github.com/leandrolima132/pizza.shop.git
    ```
 
 2. **Navegue até o diretório do projeto:**
 
    ```bash
-   cd 03-dt-money
+   cd pizza.shop
    ```
 
 3. **Instale as dependências:**
@@ -73,18 +71,18 @@ Para começar a usar o Pizza Shop localmente, siga os passos abaixo:
 
 3. **Realize as migrações:**
 
-```bash
-bun migrate
-```
+   ```bash
+   bun migrate
+   ```
 
-3. **Popule o banco de dados:**
+4. **Popule o banco de dados:**
 
-```bash
-bun seed
-```
+   ```bash
+   bun seed
+   ```
 
-3. **Inicie o servidor de desenvolvimento:**
+5. **Inicie o servidor de desenvolvimento:**
 
-```bash
-bun dev
-```
+   ```bash
+   bun dev
+   ```
