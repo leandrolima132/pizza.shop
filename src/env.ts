@@ -9,5 +9,4 @@ export const envSchema = z.object({
     .optional(),
 });
 
-console.log("Variáveis de ambiente:", import.meta.env);
 export const env = envSchema.parse(import.meta.env);

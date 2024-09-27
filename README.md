@@ -1,50 +1,90 @@
-# React + TypeScript + Vite
+# Pizza Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Descrição do GIF](/src/assets/demostrativo.png)
 
-Currently, two official plugins are available:
+## Descrição
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este é o projeto "Pizza Shop", desenvolvido como parte do curso da Rocketseat. O objetivo do projeto é criar uma aplicação simples para gerenciamento de pedidos de pizzas, permitindo que os usuários visualizem o cardápio, realizem pedidos e acompanhem o status.
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Funcionalidades
 
-- Configure the top-level `parserOptions` property like this:
+- Visualização do cardápio de pizzas.
+- Adição de pizzas ao carrinho.
+- Finalização de pedidos.
+- Acompanhamento do status dos pedidos.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tecnologias Utilizadas
+
+- **ReactJS** - Biblioteca para construção da interface
+- **TypeScript** - Superset do JavaScript que adiciona tipagem estática
+- **React Hook Form** - Biblioteca para gerenciamento de formulários
+- **Zod** - Validação de esquemas e dados
+- **Tailwind CSS** - Estilização de componentes com CSS-in-JS
+- **React Router** - Navegação e roteamento
+- **lucide-react** - Ícones para a interface
+
+## Instalação front
+
+Para começar a usar o Pizza Shop localmente, siga os passos abaixo:
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/leandrolima132/03-dt-money
+   ```
+
+2. **Navegue até o diretório do projeto:**
+
+   ```bash
+   cd 03-dt-money
+   ```
+
+3. **Instale as dependências:**
+
+   ```bash
+   npm install
+   ```
+
+4. **Execute o Docker compose:**
+   ```bash
+   docker compose up -d
+   ```
+5. **Inicie o servidor de desenvolvimento:**
+
+   ```bash
+   npm start
+   ```
+
+## Instalação backend
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/rocketseat-education/pizzashop-api.git
+   ```
+
+2. **Instale as dependências:**
+
+   ```bash
+   bun i
+   ```
+
+3. **Realize as migrações:**
+
+```bash
+bun migrate
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+3. **Popule o banco de dados:**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+bun seed
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+3. **Inicie o servidor de desenvolvimento:**
+
+```bash
+bun dev
 ```
