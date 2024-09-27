@@ -19,7 +19,7 @@ Este é o projeto "Pizza Shop", desenvolvido como parte do curso da Rocketseat. 
 - **TypeScript** - Superset do JavaScript que adiciona tipagem estática
 - **React Hook Form** - Biblioteca para gerenciamento de formulários
 - **Zod** - Validação de esquemas e dados
-- **Tailwind CSS** - Estilização de componentes com CSS-in-JS
+- **Tailwind CSS** - Estilização de componentes
 - **React Router** - Navegação e roteamento
 - **lucide-react** - Ícones para a interface
 
